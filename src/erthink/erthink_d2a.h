@@ -323,6 +323,12 @@ inline void make_digits(PRINTER &printer, const uint64_t top, uint64_t delta,
   int kappa = dec_digits(body);
   assert(kappa > 0);
 
+#ifdef X__clang__ // https://bugs.llvm.org/show_bug.cgi?id=38217
+#define MODULO(x, y) x -= y * (x / y)
+#else
+#define MODULO(x, y) x %= y
+#endif
+
   do {
     switch (--kappa) {
     default:
@@ -330,39 +336,39 @@ inline void make_digits(PRINTER &printer, const uint64_t top, uint64_t delta,
       __unreachable();
     case 9:
       digit = body / UINT_E9;
-      body %= UINT_E9;
+      MODULO(body, UINT_E9);
       break;
     case 8:
       digit = body / UINT_E8;
-      body %= UINT_E8;
+      MODULO(body, UINT_E8);
       break;
     case 7:
       digit = body / UINT_E7;
-      body %= UINT_E7;
+      MODULO(body, UINT_E7);
       break;
     case 6:
       digit = body / UINT_E6;
-      body %= UINT_E6;
+      MODULO(body, UINT_E6);
       break;
     case 5:
       digit = body / UINT_E5;
-      body %= UINT_E5;
+      MODULO(body, UINT_E5);
       break;
     case 4:
       digit = body / UINT_E4;
-      body %= UINT_E4;
+      MODULO(body, UINT_E4);
       break;
     case 3:
       digit = body / 1000u;
-      body %= 1000u;
+      MODULO(body, 1000u);
       break;
     case 2:
       digit = body / 100u;
-      body %= 100u;
+      MODULO(body, 100u);
       break;
     case 1:
       digit = body / 10u;
-      body %= 10u;
+      MODULO(body, 10u);
       break;
     case 0:
       digit = body;
@@ -404,39 +410,39 @@ inline void make_digits(PRINTER &printer, const uint64_t top, uint64_t delta,
       __unreachable();
     case 9:
       digit = body / UINT_E9;
-      body %= UINT_E9;
+      MODULO(body, UINT_E9);
       break;
     case 8:
       digit = body / UINT_E8;
-      body %= UINT_E8;
+      MODULO(body, UINT_E8);
       break;
     case 7:
       digit = body / UINT_E7;
-      body %= UINT_E7;
+      MODULO(body, UINT_E7);
       break;
     case 6:
       digit = body / UINT_E6;
-      body %= UINT_E6;
+      MODULO(body, UINT_E6);
       break;
     case 5:
       digit = body / UINT_E5;
-      body %= UINT_E5;
+      MODULO(body, UINT_E5);
       break;
     case 4:
       digit = body / UINT_E4;
-      body %= UINT_E4;
+      MODULO(body, UINT_E4);
       break;
     case 3:
       digit = body / 1000u;
-      body %= 1000u;
+      MODULO(body, 1000u);
       break;
     case 2:
       digit = body / 100u;
-      body %= 100u;
+      MODULO(body, 100u);
       break;
     case 1:
       digit = body / 10u;
-      body %= 10u;
+      MODULO(body, 10u);
       break;
     case 0:
       digit = body;
